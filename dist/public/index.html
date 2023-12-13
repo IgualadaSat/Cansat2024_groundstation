@@ -18,7 +18,7 @@
 			margin: auto;
 			padding: 0;
 			display: grid;
-			grid-template-columns: repeat(2, 1fr);
+			grid-template-columns: repeat(3, 1fr);
 		}
 		body.lightmode{
 			background: linear-gradient(to bottom right, #21f, #52f, #75f); 
@@ -26,7 +26,7 @@
 			margin: auto;
 			padding: 0;
 			display: grid;
-			grid-template-columns: repeat(2, 1fr);
+			grid-template-columns: repeat(3, 1fr);
 		}
 		#footer {
 		    position: fixed;
@@ -39,12 +39,31 @@
 		    text-align: left;
 		    line-height: 32px; /* Alinea verticalmente el texto en el centro */
 		}
+		#left-menu{
+			grid-column: span 2;
+		}
+		#right-menu{
+			display: grid;
+			grid-template-rows: repeat(2, 1fr);
+		}
 	</style>
 </head>
 <body>
 
 <div id="footer">
 	<b>Tema:</b><input id="tema" type="checkbox" name="">
+</div>
+
+<div id="left-menu">
+	<iframe src="parts/graphic.html"></iframe>
+</div>
+<div id="right-menu">
+	<div id="data">
+		<iframe src="parts/terminal.html"></iframe>
+	</div>
+	<div id="tresd">
+		<iframe src="parts/tresd.html"></iframe>
+	</div>
 </div>
 
 </body>

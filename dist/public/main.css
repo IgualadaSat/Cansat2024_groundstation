@@ -14,6 +14,11 @@ body, div, header, iframe, canvas{
     height: 100vh;
 }
 
+div, iframe{
+    height: 100%;
+    width: 100%;
+}
+
 canvas{
   background: #0005;
   width: 100vw;
