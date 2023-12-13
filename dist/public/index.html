@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>IGUALADA-SAT</title>
+	<link rel="stylesheet" type="text/css" href="main.css">
+	<link rel="icon" href="favicon.png" type="image/x-icon">
+	<style type="text/css">
+		body.darkmode{
+			background: linear-gradient(to bottom right, #012, #025, #057); 
+			/*linear-gradient(to bottom right, #21f, #52f, #75f);*/
+			/*linear-gradient(to bottom right, #f20, #f50, #f70);*/
+			/*linear-gradient(to bottom right, #f12, #f25, #f57);*/
+			/*linear-gradient(to bottom right, #012, #025, #057);/*
+			/*linear-gradient(to bottom right, #210, #520, #fa0);*/
+			display: flex;
+			margin: auto;
+			padding: 0;
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+		}
+		body.lightmode{
+			background: linear-gradient(to bottom right, #21f, #52f, #75f); 
+			display: flex;
+			margin: auto;
+			padding: 0;
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+		}
+		#footer {
+		    position: fixed;
+		    bottom: 0;
+		    left: 0;
+		    width: 100vw;
+		    height: 32px;
+		    background-color: #0000; /* Puedes cambiar el color de fondo según tus preferencias */
+		    color: #fff; /* Puedes cambiar el color del texto según tus preferencias */
+		    text-align: left;
+		    line-height: 32px; /* Alinea verticalmente el texto en el centro */
+		}
+	</style>
+</head>
+<body>
+
+<div id="footer">
+	<b>Tema:</b><input id="tema" type="checkbox" name="">
+</div>
+
+</body>
+
+<script type="text/javascript" src="src/style.js"></script>
+
+<script type="text/javascript">
+
+let checkbox = document.querySelector("#tema");
+
+checkbox.addEventListener("change", () => {
+    document.lm ? DARKMODE() : LIGHTMODE();
+});
+
+</script>
+
+</html>
