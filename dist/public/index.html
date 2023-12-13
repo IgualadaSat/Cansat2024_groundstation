@@ -7,7 +7,14 @@
 	<link rel="stylesheet" type="text/css" href="main.css">
 	<link rel="icon" href="favicon.png" type="image/x-icon">
 	<style type="text/css">
-		body.darkmode{
+		body{
+			margin: auto;
+			padding: 0;
+		}
+		header{
+			background: #000;
+		}
+		#container.darkmode{
 			background: linear-gradient(to bottom right, #012, #025, #057); 
 			/*linear-gradient(to bottom right, #21f, #52f, #75f);*/
 			/*linear-gradient(to bottom right, #f20, #f50, #f70);*/
@@ -20,7 +27,7 @@
 			display: grid;
 			grid-template-columns: repeat(3, 1fr);
 		}
-		body.lightmode{
+		#container.lightmode{
 			background: linear-gradient(to bottom right, #21f, #52f, #75f); 
 			display: flex;
 			margin: auto;
@@ -50,6 +57,10 @@
 </head>
 <body>
 
+<header></header>
+
+<div id="container">
+
 <div id="footer">
 	<b>Tema:</b><input id="tema" type="checkbox" name="">
 </div>
@@ -64,6 +75,8 @@
 	<div id="tresd">
 		<iframe src="parts/tresd.html"></iframe>
 	</div>
+</div>
+
 </div>
 
 </body>
