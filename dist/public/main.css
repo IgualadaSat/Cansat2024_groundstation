@@ -106,6 +106,7 @@ input , textarea{
     color: #0ff;
 }
 textarea{
+    spellcheck: false;
     cursor: default;
 }
 

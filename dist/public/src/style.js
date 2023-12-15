@@ -76,3 +76,9 @@ Header.main();
 setInterval(()=>{
 	Header.update();
 },10);
+
+if(document.querySelectorAll("textarea") != null){
+	document.querySelectorAll("textarea").forEach(ta => {
+		ta.spellcheck = false;
+	});
+}
