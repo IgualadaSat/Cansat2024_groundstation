@@ -7,28 +7,46 @@
 	<link rel="stylesheet" type="text/css" href="main.css">
 	<link rel="icon" href="favicon.png" type="image/x-icon">
 	<style type="text/css">
-		body{
+		body.darkmode{
 			margin: auto;
 			padding: 0;
-		}
-		header{
-			background: #000;
-		}
-		#container.darkmode{
 			background: linear-gradient(to bottom right, #012, #025, #057); 
 			/*linear-gradient(to bottom right, #21f, #52f, #75f);*/
 			/*linear-gradient(to bottom right, #f20, #f50, #f70);*/
 			/*linear-gradient(to bottom right, #f12, #f25, #f57);*/
 			/*linear-gradient(to bottom right, #012, #025, #057);/*
 			/*linear-gradient(to bottom right, #210, #520, #fa0);*/
-			display: flex;
+		}
+		body.lightmode{
 			margin: auto;
 			padding: 0;
-			display: grid;
-			grid-template-columns: repeat(3, 1fr);
-		}
-		#container.lightmode{
 			background: linear-gradient(to bottom right, #21f, #52f, #75f); 
+		}
+		header{
+			background: #0000;
+			display: flex;
+		}
+		.windows.darkmode{
+			background: #0ffa;
+			color: #000;
+			width: calc(100vw/3);
+			float:left;
+			padding: 6px;
+			cursor: pointer;
+		}
+		.windows.lightmode{
+			color: #fff;
+			background: #000;
+			width: calc(100vw/3);
+			float:left;
+			padding: 6px;
+			cursor: pointer;
+		}
+		.windows:hover {
+			color: #fff;
+			background: #0000;
+		}
+		#container{
 			display: flex;
 			margin: auto;
 			padding: 0;
@@ -49,7 +67,7 @@
 		#left-menu{
 			grid-column: span 2;
 		}
-		#right-menu{
+	#right-menu{
 			display: grid;
 			grid-template-rows: repeat(2, 1fr);
 		}
@@ -57,7 +75,13 @@
 </head>
 <body>
 
-<header></header>
+<header>
+
+<b class="windows" onclick="window.open('parts/tresd.html','width=400','height=400')">3d</b>
+<b class="windows" onclick="window.open('parts/video.html','width=400','height=400')">Video</b>
+<b class="windows" onclick="window.open('parts/sendData.html','width=400','height=400')">Send data</b>
+
+</header>
 
 <div id="container">
 
@@ -73,7 +97,7 @@
 		<iframe src="parts/terminal.html"></iframe>
 	</div>
 	<div id="tresd">
-		<iframe src="parts/tresd.html"></iframe>
+		<iframe src="parts/datos.html"></iframe>
 	</div>
 </div>
 

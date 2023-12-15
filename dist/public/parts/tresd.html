@@ -1,17 +1,57 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="../main.css">
-	<title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="../main.css">
+  <title>Animación Cubo 3D</title>
+  <style>
+    body { margin: 0; }
+    canvas { display: block; }
+  </style>
 </head>
-<body> 
+<body>
+  <!--<input type="color" name="">-->
+  <script src="../src/style.js"></script>
+  <script src="https://threejs.org/build/three.js"></script>
+  <script>
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 700);
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
 
-<div id="body"></div>
+    const geometry = new THREE.BoxGeometry();
+    const material = new THREE.MeshBasicMaterial({ color: 0x00ffff });
+    const cube = new THREE.Mesh(geometry, material);
+    scene.add(cube);
 
+    camera.position.z = 2.5;
+
+    const animate = () => {
+      requestAnimationFrame(animate);
+
+      renderer.setClearColor(0x555555);
+      renderer.clear();
+
+      // Rotación del cubo
+      cube.rotation.x += 0.01;
+      cube.rotation.y += 0.01;
+
+      renderer.render(scene, camera);
+    };
+
+    window.addEventListener('resize', () => {
+      const newWidth = window.innerWidth;
+      const newHeight = window.innerHeight;
+
+      camera.aspect = newWidth / newHeight;
+      camera.updateProjectionMatrix();
+
+      renderer.setSize(newWidth, newHeight);
+    });
+
+    animate();
+  </script>
 </body>
-
-<script type="text/javascript" src="../src/style.js"></script>
-
 </html>

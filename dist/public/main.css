@@ -24,6 +24,10 @@ canvas{
   width: 100vw;
 }
 
+label, b, .window, h1, h2, h3, input, button, textarea{
+    padding-left: 10px;
+}
+
 #body.darkmode {
     background: linear-gradient(to top, #fff0, #fff2, #fff2);
     height: calc(100% - 32px);
@@ -63,7 +67,6 @@ header .window:hover {
 }
 
 h1{
-    padding-left: 10px;
     font-weight: bold;
     color: #fff;
     width: calc(100% - 0);
@@ -71,7 +74,6 @@ h1{
     background: linear-gradient(to right, #07a, #0ffa, #0ffa);
 }
 h2{
-    padding-left: 10px;
     font-weight: bold;
     color: #fff;
     width: calc(100% - 0);
@@ -79,7 +81,6 @@ h2{
     background: linear-gradient(to bottom right, #f21, #f52, #f75);
 }
 h3{
-    padding-left: 10px;
     font-weight: bold;
     color: #000;
     width: calc(100% - 0);
@@ -88,7 +89,6 @@ h3{
 }
 
 button, input, textarea {
-    padding-left: 10px;
     background: #0003;
     border: 2px solid #fff1;
     border-radius: 5px;
@@ -101,13 +101,11 @@ button:hover , input:hover {
 }
 
 input , textarea{
-    padding-left: 10px;
     cursor: text;
     background: #0002;
     color: #0ff;
 }
 textarea{
-    padding-left: 10px;
     cursor: default;
 }
 
