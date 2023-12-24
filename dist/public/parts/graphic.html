@@ -48,25 +48,36 @@ document.querySelectorAll("input").forEach(input => {
 function updateDataFromCheckbox(checkboxId, label, color) {
     const checkbox = document.getElementById(checkboxId);
 
-    if (checkbox.checked) {
-        // Checkbox está marcado, agregar el conjunto de datos si no está presente
-        if (!data.datasets.some(dataset => dataset.label === label)) {
-            data.datasets.push(new DataSet(label, color));
-        }
-    } else {
-        // Checkbox está desmarcado, eliminar el conjunto de datos si está presente
-        const index = data.datasets.findIndex(dataset => dataset.label === label);
-        if (index !== -1) {
-            data.datasets.splice(index, 1);
-        }
+    // Verificar si el dataset ya existe
+    const existingDataset = data.datasets.find(dataset => dataset.label === label);
+
+    if (checkbox.checked && !existingDataset) {
+        // Checkbox está marcado y el dataset no existe, agregar el conjunto de datos
+        data.datasets.push(new DataSet(label, color));
+    } else if (!checkbox.checked && existingDataset) {
+        // Checkbox está desmarcado y el dataset existe, eliminar el conjunto de datos
+        const index = data.datasets.indexOf(existingDataset);
+        data.datasets.splice(index, 1);
     }
 
-    // Reconstruir el array de datasets según el orden actual de los checkboxes
+    // Ordenar los datasets según el orden actual de los checkboxes
     data.datasets.sort((a, b) => {
         const checkboxA = document.getElementById(a.label.toLowerCase() + "Checkbox");
         const checkboxB = document.getElementById(b.label.toLowerCase() + "Checkbox");
         return checkboxA.compareDocumentPosition(checkboxB) & 2 ? 1 : -1;
     });
+
+    // Crear el gráfico si aún no existe
+    if (!THEGRAPHIC) {
+        THEGRAPHIC = new Chart(ctx, {
+            type: 'line',
+            data: data,
+            options: options,
+        });
+    } else {
+        // Actualizar el gráfico
+        THEGRAPHIC.update();
+    }
 }
 
 // Asociar la función de actualización a los eventos de cambio en los checkboxes
@@ -89,6 +100,7 @@ document.getElementById("temperaturaCheckbox").addEventListener("change", functi
 document.getElementById("posicionCheckbox").addEventListener("change", function() {
     updateDataFromCheckbox("posicionCheckbox", "Altura", "#0FF");
 });
+
 
 </script>
 
