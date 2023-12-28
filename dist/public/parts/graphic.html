@@ -17,11 +17,18 @@
             grid-gap: 10px;
             overflow: visible;
         }
-        body, div, header, iframe, canvas{
+        body, div{
 		    padding: 0;
 		    overflow-y: scroll;
   			overflow-x: hidden; 
-		    height: 100vh;
+		    height: 100%;
+		}
+		#litles{
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+		}
+		canvas{
+			height: auto;
 		}
     </style>
 </head>
@@ -29,10 +36,22 @@
 
 <div id="body">
     <h1>Gráficos:</h1>
-    <p>Global</p>
-    <canvas id="globalGraph"></canvas>
-    <p>CO2</p>
-    <canvas id="co2Graph"></canvas>
+    <div id="principal">
+    	<p>Global</p>
+    	<canvas id="globalGraph"></canvas>
+    </div>
+    <div id="litles">
+    	<div><p>CO2</p>
+    	<canvas id="co2Graph"></canvas></div>
+    	<div><p>Radiación</p>
+    	<canvas id="radGraph"></canvas></div>
+    	<div><p>Presión</p>
+    	<canvas id="pressGraph"></canvas></div>
+    	<div><p>Temperatura</p>
+    	<canvas id="tempGraph"></canvas></div>
+    	<div><p>Altura</p>
+    	<canvas id="heigGraph"></canvas></div>
+    </div>
 </div>
 
 </body>

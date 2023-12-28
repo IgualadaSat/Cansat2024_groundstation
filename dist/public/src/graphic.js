@@ -20,9 +20,10 @@ let OPTIONS = {
 
 let globalContext = document.getElementById("globalGraph").getContext("2d");
 let co2Context = document.getElementById("co2Graph").getContext("2d");
-let radiationContext = document.getElementById("globalGraph").getContext("2d");
-let pressureContext = document.getElementById("globalGraph").getContext("2d");
-let temperatureContext = document.getElementById("globalGraph").getContext("2d");
+let radiationContext = document.getElementById("radGraph").getContext("2d");
+let pressureContext = document.getElementById("pressGraph").getContext("2d");
+let temperatureContext = document.getElementById("tempGraph").getContext("2d");
+let heightContext = document.getElementById("heigGraph").getContext("2d");
 
 
 
@@ -96,15 +97,31 @@ let data = new Data();
 data.datasets = [
     new DataSet("CO2","#f00"),
     new DataSet("Radiación","#0f0"),
-    new DataSet("Pesión","#00f"),
+    new DataSet("Presión","#00f"), 
     new DataSet("Temperatura","#fa0"),
     new DataSet("Altura","#0ff")
 ];
 
-let GlobalGRAPH = MakeNewGraph(globalContext,data);
+let GlobalGRAPH = MakeNewGraph(globalContext, data);
 let Co2GRAPH = MakeNewGraph(co2Context, {
     labels: data.labels,
     datasets: [data.datasets[0]]
+});
+let RadiationGRAPH = MakeNewGraph(radiationContext, {
+    labels: data.labels,
+    datasets: [data.datasets[1]]
+});
+let PressureGRAPH = MakeNewGraph(pressureContext, {
+    labels: data.labels,
+    datasets: [data.datasets[2]]
+});
+let TemperatureGRAPH = MakeNewGraph(temperatureContext, {
+    labels: data.labels,
+    datasets: [data.datasets[3]]
+});
+let HeightGRAPH = MakeNewGraph(heightContext, {
+    labels: data.labels,
+    datasets: [data.datasets[4]]
 });
 
 //-------------------------------------------------------------------------------------------------UPDATE
@@ -114,4 +131,8 @@ setInterval(function () {
 
     Co2GRAPH.g.update();
     GlobalGRAPH.g.update();
+    RadiationGRAPH.g.update();
+    PressureGRAPH.g.update();
+    TemperatureGRAPH.g.update();
+    HeightGRAPH.g.update();
 }, 1000);
