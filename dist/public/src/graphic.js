@@ -1,7 +1,7 @@
-//CONFIG
-let ctx = document.getElementById("graphic").getContext("2d");
+//---------------------------------------------------------------------------------------------CONFIG
 
-let options = {
+
+let OPTIONS = {
     scales: {
         "tiempo (s)": {
             type: 'linear',
@@ -14,7 +14,25 @@ let options = {
     },
 };
 
-//DO
+
+
+//CANVASES
+
+let globalContext = document.getElementById("globalGraph").getContext("2d");
+let co2Context = document.getElementById("globalGraph").getContext("2d");
+let radiationContext = document.getElementById("globalGraph").getContext("2d");
+let pressureContext = document.getElementById("globalGraph").getContext("2d");
+let temperatureContext = document.getElementById("globalGraph").getContext("2d");
+
+
+
+//FUNCTIONALITIES
+
+class Data{
+    labels = [];
+    datasets = [];
+}
+
 class DataSet{
     label = "";
     borderColor = "#fff";
@@ -27,41 +45,57 @@ class DataSet{
     }
 }
 
-let data = {
-    labels: [],
-    datasets: [
+class GraphParams{
+    ctx = 0;
+    data = 0;
+    options = 0;
+    type = 0;
+
+    constructor(ctx,data,options,type){
+        this.ctx = ctx;
+        this.data = data;
+        this.options = options;
+        this.type = type;
+    }
+}
+
+const MakeNewGraph = () => {
+    var data = new Data();
+    data.datasets = [
         new DataSet("CO2","#f00"),
         new DataSet("Radiación","#0f0"),
         new DataSet("Pesión","#00f"),
         new DataSet("Temperatura","#fa0"),
-        new DataSet("Altura","#0ff"),
-    ],
-};
+        new DataSet("Altura","#0ff")
+    ];
 
-function f(x){
-    return 1000/x;
+    graphParams = new GraphParams(globalContext,data,OPTIONS,"line");
+
+    var GRAPH = new Chart(globalContext, graphParams);
+
+    return GRAPH;
 }
 
-let THEGRAPHIC = new Chart(ctx, {
-    type: 'line',
-    data: data,
-    options: options,
-});
+function f(x){
+    return x;
+}
+
+let GlobalGRAPH = MakeNewGraph();
 
 setInterval(function () {
-    if (data.labels.length > 10) {
-        data.labels.shift();
-        data.datasets.forEach(d => {
+    if (graphParams.data.labels.length > 10) {
+        graphParams.data.labels.shift();
+        graphParams.data.datasets.forEach(d => {
             d.data.shift();
         }); 
     }
 
     let timeInSeconds = new Date().getSeconds();
-    data.labels.push(timeInSeconds);
+    graphParams.data.labels.push(timeInSeconds);
     
-    data.datasets.forEach(d => {
+    graphParams.data.datasets.forEach(d => {
         d.data.push( (f(timeInSeconds)+Math.random()*2-1) );
     }); 
 
-    THEGRAPHIC.update();
+    GlobalGRAPH.update();
 }, 1000);

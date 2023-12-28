@@ -67,7 +67,10 @@
 		#left-menu{
 			grid-column: span 2;
 		}
-	#right-menu{
+		#left-menu iframe{
+			overflow: visible;
+		}
+		#right-menu{
 			display: grid;
 			grid-template-rows: repeat(2, 1fr);
 		}
@@ -89,7 +92,7 @@
 	<b>Tema:</b><input id="tema" type="checkbox" name="">
 </div>
 
-<div id="left-menu">
+<div id="left-menu"	>
 	<iframe src="parts/graphic.html"></iframe>
 </div>
 <div id="right-menu">

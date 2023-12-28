@@ -24,7 +24,8 @@ canvas{
   width: 100vw;
 }
 
-label, b, .window, h1, h2, h3, input, button, textarea{
+label, b, .window, h1, h2, h3, input, button, textarea,p{
+    padding: 0;
     padding-left: 10px;
 }
 

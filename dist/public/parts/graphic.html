@@ -15,23 +15,29 @@
             display: grid;
             grid-template-rows: auto auto 1fr;
             grid-gap: 10px;
+            overflow: visible;
         }
+        body, div, header, iframe, canvas{
+		    padding: 0;
+		    overflow-y: scroll;
+  			overflow-x: hidden; 
+		    height: 100vh;
+		}
     </style>
 </head>
 <body>
 
 <div id="body">
     <h1>Gráficos:</h1>
+    <p>Global</p>
+    <canvas id="globalGraph"></canvas>
     <div id="menu">
         CO2: <input type="checkbox" id="co2Checkbox">
         Radiación: <input type="checkbox" id="radiacionCheckbox">
         Presión: <input type="checkbox" id="presionCheckbox">
         Temperatura: <input type="checkbox" id="temperaturaCheckbox">
         Posición: <input type="checkbox" id="posicionCheckbox">
-        
     </div>
-
-    <canvas id="graphic"></canvas>
 </div>
 
 </body>
@@ -39,69 +45,5 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script type="text/javascript" src="../src/style.js"></script>
 <script type="text/javascript" src="../src/graphic.js"></script>
-
-<script type="text/javascript">
-document.querySelectorAll("input").forEach(input => {
-	input.checked = true;
-});
-
-function updateDataFromCheckbox(checkboxId, label, color) {
-    const checkbox = document.getElementById(checkboxId);
-
-    // Verificar si el dataset ya existe
-    const existingDataset = data.datasets.find(dataset => dataset.label === label);
-
-    if (checkbox.checked && !existingDataset) {
-        // Checkbox está marcado y el dataset no existe, agregar el conjunto de datos
-        data.datasets.push(new DataSet(label, color));
-    } else if (!checkbox.checked && existingDataset) {
-        // Checkbox está desmarcado y el dataset existe, eliminar el conjunto de datos
-        const index = data.datasets.indexOf(existingDataset);
-        data.datasets.splice(index, 1);
-    }
-
-    // Ordenar los datasets según el orden actual de los checkboxes
-    data.datasets.sort((a, b) => {
-        const checkboxA = document.getElementById(a.label.toLowerCase() + "Checkbox");
-        const checkboxB = document.getElementById(b.label.toLowerCase() + "Checkbox");
-        return checkboxA.compareDocumentPosition(checkboxB) & 2 ? 1 : -1;
-    });
-
-    // Crear el gráfico si aún no existe
-    if (!THEGRAPHIC) {
-        THEGRAPHIC = new Chart(ctx, {
-            type: 'line',
-            data: data,
-            options: options,
-        });
-    } else {
-        // Actualizar el gráfico
-        THEGRAPHIC.update();
-    }
-}
-
-// Asociar la función de actualización a los eventos de cambio en los checkboxes
-document.getElementById("co2Checkbox").addEventListener("change", function() {
-    updateDataFromCheckbox("co2Checkbox", "CO2", "#F00");
-});
-
-document.getElementById("radiacionCheckbox").addEventListener("change", function() {
-    updateDataFromCheckbox("radiacionCheckbox", "Radiación", "#0F0");
-});
-
-document.getElementById("presionCheckbox").addEventListener("change", function() {
-    updateDataFromCheckbox("presionCheckbox", "Presión", "#00F");
-});
-
-document.getElementById("temperaturaCheckbox").addEventListener("change", function() {
-    updateDataFromCheckbox("temperaturaCheckbox", "Temperatura", "#FA0");
-});
-
-document.getElementById("posicionCheckbox").addEventListener("change", function() {
-    updateDataFromCheckbox("posicionCheckbox", "Altura", "#0FF");
-});
-
-
-</script>
 
 </html>
