@@ -19,7 +19,7 @@ let OPTIONS = {
 //CANVASES
 
 let globalContext = document.getElementById("globalGraph").getContext("2d");
-let co2Context = document.getElementById("globalGraph").getContext("2d");
+let co2Context = document.getElementById("co2Graph").getContext("2d");
 let radiationContext = document.getElementById("globalGraph").getContext("2d");
 let pressureContext = document.getElementById("globalGraph").getContext("2d");
 let temperatureContext = document.getElementById("globalGraph").getContext("2d");
@@ -31,6 +31,22 @@ let temperatureContext = document.getElementById("globalGraph").getContext("2d")
 class Data{
     labels = [];
     datasets = [];
+
+    static Update(){
+        if (data.labels.length > 10) {
+            data.labels.shift();
+            data.datasets.forEach(d => {
+                d.data.shift();
+            }); 
+        }
+
+        let timeInSeconds = new Date().getSeconds();
+        data.labels.push(timeInSeconds);
+        
+        data.datasets.forEach(d => {
+            d.data.push( (f(timeInSeconds)+Math.random()*2-1) );
+        }); 
+    }
 }
 
 class DataSet{
@@ -59,19 +75,10 @@ class GraphParams{
     }
 }
 
-const MakeNewGraph = () => {
-    var data = new Data();
-    data.datasets = [
-        new DataSet("CO2","#f00"),
-        new DataSet("Radiación","#0f0"),
-        new DataSet("Pesión","#00f"),
-        new DataSet("Temperatura","#fa0"),
-        new DataSet("Altura","#0ff")
-    ];
+const MakeNewGraph = (ctx,data) => {
+    var Gp = new GraphParams(ctx,data,OPTIONS,"line");
 
-    var Gp = new GraphParams(globalContext,data,OPTIONS,"line");
-
-    var GRAPH = new Chart(globalContext, Gp);
+    var GRAPH = new Chart(ctx, Gp);
 
     return {g:GRAPH,gp:Gp};
 }
@@ -85,29 +92,26 @@ function f(x){
 
 //GRAPHICS
 
-let GlobalGRAPH = MakeNewGraph();
+let data = new Data();
+data.datasets = [
+    new DataSet("CO2","#f00"),
+    new DataSet("Radiación","#0f0"),
+    new DataSet("Pesión","#00f"),
+    new DataSet("Temperatura","#fa0"),
+    new DataSet("Altura","#0ff")
+];
 
+let GlobalGRAPH = MakeNewGraph(globalContext,data);
+let Co2GRAPH = MakeNewGraph(co2Context, {
+    labels: data.labels,
+    datasets: [data.datasets[0]]
+});
 
 //-------------------------------------------------------------------------------------------------UPDATE
 
-function Update(GRAPH){
-    if (GRAPH.gp.data.labels.length > 10) {
-        GRAPH.gp.data.labels.shift();
-        GRAPH.gp.data.datasets.forEach(d => {
-            d.data.shift();
-        }); 
-    }
-
-    let timeInSeconds = new Date().getSeconds();
-    GRAPH.gp.data.labels.push(timeInSeconds);
-    
-    GRAPH.gp.data.datasets.forEach(d => {
-        d.data.push( (f(timeInSeconds)+Math.random()*2-1) );
-    }); 
-
-    GRAPH.g.update();
-}
-
 setInterval(function () {
-    Update(GlobalGRAPH);
+    Data.Update();
+
+    Co2GRAPH.g.update();
+    GlobalGRAPH.g.update();
 }, 1000);
