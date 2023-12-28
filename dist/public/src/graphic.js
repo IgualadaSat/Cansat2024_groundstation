@@ -69,34 +69,45 @@ const MakeNewGraph = () => {
         new DataSet("Altura","#0ff")
     ];
 
-    graphParams = new GraphParams(globalContext,data,OPTIONS,"line");
+    var Gp = new GraphParams(globalContext,data,OPTIONS,"line");
 
-    var GRAPH = new Chart(globalContext, graphParams);
+    var GRAPH = new Chart(globalContext, Gp);
 
-    return GRAPH;
+    return {g:GRAPH,gp:Gp};
 }
 
 function f(x){
     return x;
 }
 
-let graphParams = 0;
+
+
+
+//GRAPHICS
+
 let GlobalGRAPH = MakeNewGraph();
 
-setInterval(function () {
-    if (graphParams.data.labels.length > 10) {
-        graphParams.data.labels.shift();
-        graphParams.data.datasets.forEach(d => {
+
+//-------------------------------------------------------------------------------------------------UPDATE
+
+function Update(GRAPH){
+    if (GRAPH.gp.data.labels.length > 10) {
+        GRAPH.gp.data.labels.shift();
+        GRAPH.gp.data.datasets.forEach(d => {
             d.data.shift();
         }); 
     }
 
     let timeInSeconds = new Date().getSeconds();
-    graphParams.data.labels.push(timeInSeconds);
+    GRAPH.gp.data.labels.push(timeInSeconds);
     
-    graphParams.data.datasets.forEach(d => {
+    GRAPH.gp.data.datasets.forEach(d => {
         d.data.push( (f(timeInSeconds)+Math.random()*2-1) );
     }); 
 
-    GlobalGRAPH.update();
+    GRAPH.g.update();
+}
+
+setInterval(function () {
+    Update(GlobalGRAPH);
 }, 1000);
