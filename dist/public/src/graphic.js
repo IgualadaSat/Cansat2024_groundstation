@@ -80,6 +80,7 @@ function f(x){
     return x;
 }
 
+let graphParams = 0;
 let GlobalGRAPH = MakeNewGraph();
 
 setInterval(function () {
