@@ -32,7 +32,7 @@
 		}
 		#buttons{
 			display: grid;
-			grid-template-columns: repeat(2, 1fr);
+			grid-template-columns: repeat(4, 1fr);
 		}
     </style>
 </head>
@@ -41,8 +41,10 @@
 <div id="body">
     <h1>Gráficos:</h1>
     <div id="buttons">
-    	<button id="downloadButton">Descargar JSON</button>
-    	<button id="downloadButton">Descargar PNG</button>
+    	<button id="downloadButtonJSON">Descargar JSON</button>
+    	<button id="downloadButtonJPG">Descargar JPG</button>
+    	<button id="downloadButtonPNG">Descargar PNG</button>
+    	<button id="downloadButtonCSV">Descargar CSV</button>
     </div>
     <div id="litles">
     	<div><p>CO2</p>
@@ -60,13 +62,14 @@
 
 </body>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script type="text/javascript" src="../src/style.js"></script>
 <script type="text/javascript" src="../src/graphic.js"></script>
 
 <script type="text/javascript">
 
-document.getElementById('downloadButton').addEventListener('click', function () {	
+document.getElementById('downloadButtonJSON').addEventListener('click', function () {	
 	const jsonString = JSON.stringify(data, null, 2);
 
     const blob = new Blob([jsonString], { type: 'application/json' });
@@ -82,6 +85,62 @@ document.getElementById('downloadButton').addEventListener('click', function () 
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 });
+
+document.getElementById('downloadButtonJPG').addEventListener('click', function () {
+    const canvas = document.getElementById("co2Graph");
+    const ctx = canvas.getContext("2d");
+
+    ctx.fillStyle = "#fff2"; 
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    domtoimage.toJpeg(canvas, { quality: 0.95 }).then(function (dataUrl) {
+        const a = document.createElement('a');
+        a.href = dataUrl;
+        a.download = 'grafico.jpg';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    });
+});
+
+document.getElementById('downloadButtonPNG').addEventListener('click', function () {
+    const canvas = document.getElementById("co2Graph");
+
+    domtoimage.toBlob(canvas).then(function (blob) {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'grafico.png';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    });
+});
+
+document.getElementById('downloadButtonCSV').addEventListener('click', function () {
+    const csvContent = "data:text/csv;charset=utf-8," + dataToCSV(data);
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "datos.csv");
+    document.body.appendChild(link);
+
+    link.click();
+    document.body.removeChild(link);
+});
+
+function dataToCSV(data) {
+    // Genera el contenido CSV a partir de tus datos
+    const headers = ["Tiempo", "CO2", "Radiación", "Presión", "Temperatura", "Altura"];
+    const rows = [headers.join(',')];
+
+    for (let i = 0; i < data.labels.length; i++) {
+        const row = [data.labels[i]].concat(data.datasets.map(dataset => dataset.data[i]));
+        rows.push(row.join(','));
+    }
+
+    return rows.join('\n');
+}
 
 </script>
 
