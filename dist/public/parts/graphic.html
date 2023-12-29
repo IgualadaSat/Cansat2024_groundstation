@@ -30,13 +30,20 @@
 		canvas{
 			height: auto;
 		}
+		#buttons{
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+		}
     </style>
 </head>
 <body>
 
 <div id="body">
-	<button id="downloadButton">Descargar Datos en JSON</button>
     <h1>Gráficos:</h1>
+    <div id="buttons">
+    	<button id="downloadButton">Descargar JSON</button>
+    	<button id="downloadButton">Descargar PNG</button>
+    </div>
     <div id="litles">
     	<div><p>CO2</p>
     	<canvas id="co2Graph"></canvas></div>
