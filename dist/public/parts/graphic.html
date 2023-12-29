@@ -17,7 +17,7 @@
             grid-gap: 10px;
             overflow: visible;
         }
-        body, div{
+        body{
 		    padding: 0;
 		    overflow-y: scroll;
   			overflow-x: hidden; 
@@ -30,9 +30,12 @@
 		canvas{
 			height: auto;
 		}
-		#buttons{
+		.buttons{
 			display: grid;
-			grid-template-columns: repeat(4, 1fr);
+			grid-template-columns: repeat(2, 1fr);
+		}
+		button{
+			color: #fffa;
 		}
     </style>
 </head>
@@ -40,24 +43,34 @@
 
 <div id="body">
     <h1>Gráficos:</h1>
-    <div id="buttons">
+    <div class="buttons">
     	<button id="downloadButtonJSON">Descargar JSON</button>
-    	<button id="downloadButtonJPG">Descargar JPG</button>
-    	<button id="downloadButtonPNG">Descargar PNG</button>
     	<button id="downloadButtonCSV">Descargar CSV</button>
     </div>
     <div id="litles">
     	<div><p>CO2</p>
-    	<canvas id="co2Graph"></canvas></div>
+    	<canvas id="co2Graph"></canvas>
+    		<div class="buttons"><button id="CO2JPG">Descargar JPG</button>
+		    <button id="CO2PNG">Descargar PNG</button></div></div>
     	<div><p>Radiación</p>
-    	<canvas id="radGraph"></canvas></div>
+    	<canvas id="radGraph"></canvas>
+    		<div class="buttons"><button id="RadiacionJPG">Descargar JPG</button>
+		    <button id="RadiacionPNG">Descargar PNG</button></div></div>
     	<div><p>Presión</p>
-    	<canvas id="pressGraph"></canvas></div>
+    	<canvas id="pressGraph"></canvas>
+    		<div class="buttons"><button id="PresionJPG">Descargar JPG</button>
+		    <button id="PresionPNG">Descargar PNG</button></div></div>
     	<div><p>Temperatura</p>
-    	<canvas id="tempGraph"></canvas></div>
+    	<canvas id="tempGraph"></canvas>
+    		<div class="buttons"><button id="TemperaturaJPG">Descargar JPG</button>
+		    <button id="TemperaturaPNG">Descargar PNG</button></div></div>
     	<div><p>Altura</p>
-    	<canvas id="heigGraph"></canvas></div>
+    	<canvas id="heigGraph"></canvas>
+    		<div class="buttons"><button id="AlturaJPG">Descargar JPG</button>
+		    <button id="AlturaPNG">Descargar PNG</button></div></div>
     </div>
+
+    <espacio></espacio>
 </div>
 
 </body>
@@ -86,33 +99,39 @@ document.getElementById('downloadButtonJSON').addEventListener('click', function
     URL.revokeObjectURL(url);
 });
 
-document.getElementById('downloadButtonJPG').addEventListener('click', function () {
-    const canvas = document.getElementById("co2Graph");
-    const ctx = canvas.getContext("2d");
+let buttonDivs = document.querySelectorAll(".buttons");
 
-    ctx.fillStyle = "#fff2"; 
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+buttonDivs.forEach(buttonDiv => {
+    let buttons = buttonDiv.querySelectorAll("button");
 
-    domtoimage.toJpeg(canvas, { quality: 0.95 }).then(function (dataUrl) {
-        const a = document.createElement('a');
-        a.href = dataUrl;
-        a.download = 'grafico.jpg';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
+    let canvasId = buttonDiv.previousElementSibling.id;
+    const canvas = document.getElementById(canvasId);
+
+    buttons[0].addEventListener('click', function () {
+        const ctx = canvas.getContext("2d");
+
+        ctx.fillStyle = "#fff2";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        domtoimage.toJpeg(canvas, { quality: 0.95 }).then(function (dataUrl) {
+            const a = document.createElement('a');
+            a.href = dataUrl;
+            a.download = 'grafico.jpg';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        });
     });
-});
 
-document.getElementById('downloadButtonPNG').addEventListener('click', function () {
-    const canvas = document.getElementById("co2Graph");
-
-    domtoimage.toBlob(canvas).then(function (blob) {
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = 'grafico.png';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
+    buttons[1].addEventListener('click', function () {
+        domtoimage.toBlob(canvas).then(function (blob) {
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'grafico.png';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        });
     });
 });
 
