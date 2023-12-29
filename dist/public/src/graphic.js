@@ -3,11 +3,15 @@
 
 let OPTIONS = {
     scales: {
-        "tiempo (s)": {
+        x: {
             type: 'linear',
             position: 'bottom',
+            ticks: {
+                min: 0, 
+                max: 1/0
+            }
         },
-        "variables": {
+        y: {
             type: 'linear',
             position: 'left',
         },
@@ -34,19 +38,19 @@ class Data{
     datasets = [];
 
     static Update(){
-        if (data.labels.length > 10) {
+        let timeInSeconds = new Date().getSeconds();
+        data.labels.push(data.labels.length);
+        
+        data.datasets.forEach(d => {
+            d.data.push( f(data.labels.length) );
+        }); 
+
+        if (data.labels.length > 1/0) {
             data.labels.shift();
             data.datasets.forEach(d => {
                 d.data.shift();
             }); 
         }
-
-        let timeInSeconds = new Date().getSeconds();
-        data.labels.push(timeInSeconds);
-        
-        data.datasets.forEach(d => {
-            d.data.push( (f(timeInSeconds)+Math.random()*2-1) );
-        }); 
     }
 }
 
@@ -85,7 +89,7 @@ const MakeNewGraph = (ctx,data) => {
 }
 
 function f(x){
-    return x;
+    return 1000/x+Math.random()*200-100;
 }
 
 

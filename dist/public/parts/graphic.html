@@ -35,6 +35,7 @@
 <body>
 
 <div id="body">
+	<button id="downloadButton">Descargar Datos en JSON</button>
     <h1>Gráficos:</h1>
     <div id="litles">
     	<div><p>CO2</p>
@@ -55,5 +56,26 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script type="text/javascript" src="../src/style.js"></script>
 <script type="text/javascript" src="../src/graphic.js"></script>
+
+<script type="text/javascript">
+
+document.getElementById('downloadButton').addEventListener('click', function () {	
+	const jsonString = JSON.stringify(data, null, 2);
+
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'datos.json';
+
+    document.body.appendChild(a);
+    a.click();
+
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+});
+
+</script>
 
 </html>
