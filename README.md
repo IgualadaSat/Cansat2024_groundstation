@@ -1,6 +1,6 @@
 # Cansat 2024 Groundstation
 
-A graphic aplication which shows data from the satelite.
+A web graphic, based on windows, aplication which shows data from the satellite.
 
 ## How to use
 
