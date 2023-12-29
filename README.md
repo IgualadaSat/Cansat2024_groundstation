@@ -7,3 +7,5 @@ A graphic aplication which shows data from the satelite.
 On Bash: `chmod +x compile.sh` and `./compile.sh` or `node server.js`. On Bach: `node server.js` or make a .bat yourserf, silly windows user :)
 
 You can allso use it without node. Just opening the index.html file on the browser. However, the light theme wouldn't work properly, like other functionalities as well.
+
+![screenshot](foto.png "image")
