@@ -35,7 +35,7 @@ label, b, .window, h1, h2, h3, input, button, textarea,p{
 }
 #body.lightmode {
     /*background: linear-gradient(to top, #fff0, #fff2, #fff2);*/
-    background: linear-gradient(to top, #0000, #0005, #0005);
+    background: linear-gradient(to top, #0000, #3335, #3335);
     height: calc(100% - 32px);
 }
 

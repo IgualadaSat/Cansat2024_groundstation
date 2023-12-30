@@ -1,4 +1,4 @@
-document.lm = false;
+document.lm = true;
 
 const LIGHTMODE = () => {
 	applyModeToFrames(document, "lightmode");

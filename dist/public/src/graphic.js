@@ -101,7 +101,7 @@ let data = new Data();
 data.datasets = [
     new DataSet("CO2","#f00"),
     new DataSet("Radiación","#0f0"),
-    new DataSet("Presión","#00f"), 
+    new DataSet("Presión","#a0f"), 
     new DataSet("Temperatura","#fa0"),
     new DataSet("Altura","#0ff")
 ];
