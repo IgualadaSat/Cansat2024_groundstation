@@ -8,6 +8,16 @@
     padding: 0;
 }
 
+::selection {
+  background-color: #fe0; /* Color de fondo durante la selección */
+  color: #000; /* Color del texto durante la selección */
+}
+
+::-moz-selection {
+  background-color: #fe0; /* Para navegadores basados en Gecko (por ejemplo, Firefox) */
+  color: #000; /* Para navegadores basados en Gecko (por ejemplo, Firefox) */
+}
+
 body, div, header, iframe, canvas{
     padding: 0;
     overflow: hidden;
