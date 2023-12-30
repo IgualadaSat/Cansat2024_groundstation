@@ -17,17 +17,35 @@
   <script src="../src/style.js"></script>
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
-    var markerCoordinates = [40.7128, -74.0060];
 
-    var map = L.map('map').setView(markerCoordinates, 13);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
 
-    L.marker(markerCoordinates).addTo(map)
-      .bindPopup('¡Aquí estoy!')
-      .openPopup();
+var map = L.map('map').setView([41.3851, 2.1734], 13);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '© OpenStreetMap contributors'
+}).addTo(map);
+
+var markerCoordinates = [
+  [41.3851, 2.1734],   // Barcelona
+  [41.6148, 0.625],    // Lleida
+  [43.263, -2.935],    // Bilbao
+  [43.0097, -7.556],   // Lugo
+  [43.371, -8.396],    // La Coruña
+  [-34.61, -58.38]     // Buenos Aires
+];
+
+for (var i = 0; i < markerCoordinates.length; i++) {
+  var marker = L.marker(markerCoordinates[i]).addTo(map);
+  marker.bindPopup('¡Ubicación ' + (i + 1) + '!');
+  
+  if (i > 0) {
+    var line = L.polyline([markerCoordinates[i - 1], markerCoordinates[i]], {color: 'blue'}).addTo(map);
+  }
+}
+
+
+
   </script>
 </body>
 </html>
