@@ -89,7 +89,7 @@ const MakeNewGraph = (ctx,data) => {
 }
 
 function f(x){
-    return 1000/x+Math.random()*200-100;
+    return Math.random()*1000/x;
 }
 
 
