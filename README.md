@@ -6,7 +6,7 @@ A web graphic, based on windows, aplication which shows data from the satellite.
 
 On Bash: `chmod +x compile.sh` and `./compile.sh` or `node server.js`. On Bach: `node server.js` or make a .bat yourserf, silly windows user :)
 
-You can allso use it without node. Just opening the index.html file in the browser. However, the light theme wouldn't work properly, like other functionalities as well.
+You can allso use it without node. Just opening the index.html file in the browser. However, the light theme wouldn't work properly, as well as other functionalities like the 3d view.
 
 ![screenshot](foto.png "darkmode")
 ![screenshot](foto2.png "lightmode")
