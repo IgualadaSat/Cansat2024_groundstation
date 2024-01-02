@@ -1,58 +1,90 @@
-//import * as THREE from 'three'; //https://threejs.org/build/three.js
+import * as THREE from 'three';
+import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
+
+//-------------------------------------------------------------------SCENE
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 700);
+const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+camera.position.z = 30;
+camera.position.y = -2;
+
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-// Crear un lienzo HTML5 para el gradiente lineal
-const canvas = document.createElement('canvas');
-canvas.width = 256;
-canvas.height = 256;
-const ctx = canvas.getContext('2d');
-const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
-gradient.addColorStop(0, '#21f');
-gradient.addColorStop(0.25, '#25f');
-gradient.addColorStop(0.5, '#27f');
-gradient.addColorStop(0.25, '#25f');
-gradient.addColorStop(1, '#21f');
-ctx.fillStyle = gradient;
-ctx.fillRect(0, 0, canvas.width, canvas.height);
+function updateRendererSize() {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
 
-// Crear una textura con el gradiente
-const texture = new THREE.CanvasTexture(canvas);
-
-// Cambiar la geometría a un cilindro
-const geometry = new THREE.CylinderGeometry(1, 1, 2.5, 32); // Radio superior, radio inferior, altura, segmentos
-const material = new THREE.MeshBasicMaterial({ map: texture });
-const cylinder = new THREE.Mesh(geometry, material);
-scene.add(cylinder);
-
-camera.position.z = 5;
-
-const animate = () => {
-  requestAnimationFrame(animate);
-
-  renderer.setClearColor(0x555555);
-  renderer.clear();
-
-  // Rotación del cilindro
-  cylinder.rotation.y += 0.1;
-  cylinder.rotation.x += 0.2 * Math.random() - 0.1;
-  cylinder.rotation.z += 0.2 * Math.random() - 0.1;
-
-  renderer.render(scene, camera);
-};
-
-window.addEventListener('resize', () => {
-  const newWidth = window.innerWidth;
-  const newHeight = window.innerHeight;
-
-  camera.aspect = newWidth / newHeight;
+  camera.aspect = width / height;
   camera.updateProjectionMatrix();
 
-  renderer.setSize(newWidth, newHeight);
-});
+  renderer.setSize(width, height);
+}
+
+window.addEventListener('resize', updateRendererSize);
+
+window.addEventListener('load', updateRendererSize);
+
+//-------------------------------------------------------------------LIGHTING
+
+const directionalLight = new THREE.DirectionalLight(0x00ffff, 1);
+directionalLight.position.set(10, 10, 10);
+directionalLight.intensity = 1.5;
+directionalLight.shadow.camera.near = 1;
+directionalLight.shadow.camera.far = 100;
+directionalLight.shadow.mapSize.width = 1024;
+directionalLight.shadow.mapSize.height = 1024;
+scene.add(directionalLight);
+
+const ambientLight = new THREE.AmbientLight(0x404040);
+scene.add(ambientLight);
+
+renderer.shadowMap.enabled = true;
+
+//-------------------------------------------------------------------OBJECT
+
+const loader = new OBJLoader();
+let loadedObject;
+
+const materialInvertedNormals = new THREE.MeshStandardMaterial({ color: 0x00ffff, side: THREE.BackSide });
+
+loader.load(
+  '../src/igdsat.obj',
+  function (object) {
+    object.traverse(function (child) {
+      if (child instanceof THREE.Mesh) {
+        child.material = materialInvertedNormals;
+        child.castShadow = true; 
+        child.receiveShadow = true;
+      }
+    });
+
+    loadedObject = object;
+    scene.add(loadedObject);
+  },
+  undefined,
+  function (error) {
+    console.error(error);
+  }
+);
+
+//-------------------------------------------------------------------LOOP
+
+function animate() {
+  requestAnimationFrame(animate);
+
+  if (loadedObject) {
+    loadedObject.rotation.y += 0.1;
+    loadedObject.rotation.x += 0.1 * Math.random() - 0.05;
+    loadedObject.rotation.z += 0.1 * Math.random() - 0.05;
+  }
+
+  renderer.render(scene, camera);
+}
+
+//const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 5);
+//scene.add(directionalLightHelper);
 
 animate();
